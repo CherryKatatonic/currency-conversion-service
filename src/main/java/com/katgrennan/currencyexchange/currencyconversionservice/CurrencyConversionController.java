@@ -1,5 +1,6 @@
 package com.katgrennan.currencyexchange.currencyconversionservice;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,11 @@ import java.util.Map;
 @RestController
 public class CurrencyConversionController {
 
+    @Autowired
+    private CurrencyExchangeServiceProxy proxy;
+
+    // Deprecated - use convertCurrencyFeign instead
+    // NOTE: keep for debugging/fallback in case Feign service fails
     @GetMapping("/currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversionBean convertCurrency(
             @PathVariable String from,
@@ -40,5 +46,23 @@ public class CurrencyConversionController {
                 res.getPort());
     }
 
+    // Use Feign proxy to get currency conversion from currency-exchange-service
+    @GetMapping("/currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversionBean convertCurrencyFeign(
+            @PathVariable String from,
+            @PathVariable String to,
+            @PathVariable BigDecimal quantity) {
+
+        CurrencyConversionBean res = proxy.getExchangeValue(from, to);
+
+        return new CurrencyConversionBean(
+                res.getId(),
+                from,
+                to,
+                res.getConversionMultiple(),
+                quantity,
+                quantity.multiply(res.getConversionMultiple()),
+                res.getPort());
+    }
 
 }
