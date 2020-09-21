@@ -64,6 +64,13 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<!-- Optional: exclude Jackson XML to get JSON responses instead of XML -->
+			<!-- <exclusions>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.dataformat</groupId>
+					<artifactId>jackson-dataformat-xml</artifactId>
+				</exclusion>
+			</exclusions> -->
 		</dependency>
 	</dependencies>
 
