@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 // Feign proxy interface for currency-exchange-service
+// (URI for external service is discovered through Ribbon)
 @FeignClient(name = "currency-exchange-service")
 // Ribbon for client-side load-balancing
 @RibbonClient(name = "currency-exchange-service")
