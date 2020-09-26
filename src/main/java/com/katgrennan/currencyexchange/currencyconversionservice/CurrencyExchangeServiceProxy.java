@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 // Feign proxy interface for currency-exchange-service
 // (URI for external service is discovered through Ribbon)
-@FeignClient(name = "currency-exchange-service")
+@FeignClient(name = "netflix-zuul-api-gateway-server")
 // Ribbon for client-side load-balancing
 @RibbonClient(name = "currency-exchange-service")
 public interface CurrencyExchangeServiceProxy {
 
     // Method signature from currency-exchange-service
-    @GetMapping("/currency-exchange/from/{from}/to/{to}")
+    @GetMapping("/currency-exchange-service/currency-exchange/from/{from}/to/{to}")
     CurrencyConversionBean getExchangeValue(@PathVariable String from, @PathVariable String to);
 
 }
